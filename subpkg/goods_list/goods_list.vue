@@ -16,6 +16,7 @@
 		},
 		onLoad(option) {
 			console.log(option.query)
+			console.log(option.cid)
 		}
 	}
 </script>
