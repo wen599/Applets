@@ -12,7 +12,7 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option.goods_id);
+			console.log(option);
 		}
 	}
 </script>

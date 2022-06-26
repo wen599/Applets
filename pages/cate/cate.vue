@@ -1,13 +1,14 @@
 <template>
-	<view class="scroll-view-container">
-		<scroll-view scroll-y="true"  class="scroll-left" style="height: 100vh;">
+	<Search></Search>
+	<view class="scroll-view-container" >
+		<scroll-view scroll-y="true"  class="scroll-left" :style="{height: windowHeight+'px'}" >
 			<template v-for="item,index in cateList" :key="item.cat_id">
 			<view :class="['left-scroll-item',item.cat_id===active?'active':'']"  @click="activeChanged(item)">
 				{{item.cat_name}}
 			</view>
 			</template>
 		</scroll-view>
-		<scroll-view scroll-y="true"  class="scroll-right" style="height: 100vh" :scroll-top="scrollTop">
+		<scroll-view scroll-y="true"  class="scroll-right" :scroll-top="scrollTop" :style="{height: windowHeight+'px'}">
 			<template v-for="item in cateLevel2" :key="item.cat_id">
 				<view class="right-scroll-item">
 					<view class="right-scroll-item-title">
@@ -37,8 +38,8 @@
 				cateList:[],
 				cateLevel2:[],
 				active:0,
-				scrollTop:0
-				
+				scrollTop:0,
+				windowHeight:0
 			}
 		},
 		methods: {
@@ -60,6 +61,13 @@
 			
 		},
 		onLoad() {
+			let windowHeight=0
+			uni.getSystemInfo({
+				success(res) {
+					windowHeight=res.windowHeight-47
+				}
+			})
+			this.windowHeight=windowHeight
 			this.getCateList()
 		}
 	}
@@ -69,6 +77,7 @@
 	.scroll-view-container{
 		display: flex;
 		.scroll-left{
+			height: 100vh;
 			width: 240rpx;
 			.left-scroll-item{
 				background-color: #f7f7f7;
@@ -93,6 +102,7 @@
 			}
 		}
 		.scroll-right{
+			height: 100vh;
 			background-color: #fff;
 			.right-scroll-item{
 				
