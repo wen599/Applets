@@ -27,7 +27,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .search-container{
 	background-color: #b40000;
 	padding: 20rpx 30rpx;
