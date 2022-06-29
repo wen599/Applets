@@ -16,6 +16,8 @@ import { createSSRApp } from 'vue'
 import App from './App.vue'
 import { $http } from '@escook/request-miniprogram'
 import request from '@/request/request.js'
+import Store from '@/store/store'
+import Vuex from 'vuex'
 
 $http.baseUrl = 'https://api-ugo-web.itheima.net/'
 $http.beforeRequest=(options)=>{
@@ -29,8 +31,11 @@ $http.afterRequest=(options)=>{
 uni.$http = $http
 uni._request=request
 App.mpType = 'app'
+
 export function createApp() {
   const app = createSSRApp(App)
+  app.use(Vuex)
+  app.use(Store)
   return {
     app
   }

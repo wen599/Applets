@@ -37,7 +37,6 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option);
 			this.requestObj.query=option.query || ''
 			this.requestObj.cid=option.cid || ''
 			this.getGoodList()

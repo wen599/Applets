@@ -1,4 +1,5 @@
 <template>
+	
 	<Search></Search>
 	<view class="scroll-view-container" >
 		<scroll-view scroll-y="true"  class="scroll-left" :style="{height: windowHeight+'px'}" >
@@ -32,7 +33,10 @@
 </template>
 
 <script>
+	import cartMixin from '@/mixins/cartMixin.js'
+	
 	export default {
+		mixins:[cartMixin],
 		data() {
 			return {
 				cateList:[],

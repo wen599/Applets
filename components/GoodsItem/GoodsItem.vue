@@ -33,6 +33,10 @@
 			goodsID:{
 				default:NaN,
 				type:Number
+			},
+			goods_count:{
+				default:-1,
+				type:Number
 			}
 		},
 		data() {

@@ -40,7 +40,9 @@
 </template>
 
 <script>
+	import cartMixin from '@/mixins/cartMixin.js'
 	export default {
+		mixins:[cartMixin],
 		data() {
 			return {
 				swiperList:[],

@@ -1,11 +1,14 @@
 <template>
-	<view class="goods-detail-container">
+	<view class="goods-detail-container" v-if="goodsInfo.goods_name">
+		<!-- 轮播图 -->
 		<swiper :indicator-dots="true"  :circular="true" :autoplay="true" :interval="3000" :duration="1000" class="swiper">
 			<swiper-item class="swiper-item" v-for="item in goodsInfo.pics" :key="item.pics_id" >
 				<image :src="item.pics_mid" class="swiper-item-image"></image>
 			</swiper-item>
 		</swiper>
+		<!-- 商品描述-->
 		<view class="goods-details-discription">
+			<!-- 商品的名称和价格 -->
 			<view class="goods-details-leftbox">
 				<view class="goods-details-name">
 					{{goodsInfo.goods_name}}
@@ -14,6 +17,7 @@
 					{{'¥'+Number(goodsInfo.goods_price).toFixed(2)}}
 				</view>
 			</view>
+			<!-- 商品收藏功能 -->
 			<view class="goods-detail-rightbox">
 				<uni-icons type="star" size="20"></uni-icons>
 				<view class="goods-detail-enshrine">
@@ -21,8 +25,10 @@
 				</view>
 			</view>
 		</view>
-
+		
+		<!-- 商品详情 -->
 		<rich-text :nodes="formatIntroduce(goodsInfo.goods_introduce)" class="goods-content"></rich-text>
+		<!-- 购物车 -->
 		<view class="goods-carts">
 					<uni-goods-nav :options="options" :fill="true" :button-group="buttonGroup" @click="onClick"
 						@buttonClick="buttonClick" />
@@ -31,10 +37,24 @@
 </template>
 
 <script>
+	import { mapMutations, mapGetters} from 'vuex'
 	export default {
+		computed:{
+			...mapGetters('m_cart',['goods_total'])
+		},
+		watch:{
+			goods_total:{
+				handler(newVal,oldVal){
+					this.options[1].info=newVal
+				},
+				immediate:true
+			}
+		},
 		data() {
 			return {
+				// 商品的数据
 				goodsInfo:{},
+				// 购物车的数据
 				options: [ {
 							icon: 'shop',
 							text: '店铺',
@@ -60,24 +80,30 @@
 			}
 		},
 		methods:{
-		 async getGoodsInfo(goods_id){
+			...mapMutations('m_cart',['addCart']),
+			async getGoodsInfo(goods_id){
 			 	this.goodsInfo= await uni._request.get('api/public/v1/goods/detail',{'goods_id':goods_id})
 			},
+			
 			formatIntroduce(introduce){
 				if(introduce) return	introduce.replace(/<img/g,'<img style="display:block;"').replace(/.webp/g,'.jpg')
 			},
+			
 			onClick(e) {
-					uni.showToast({
-						title: `点击${e.content.text}`,
-						icon: 'none'
-					})
+					if(e.content.text==='购物车'){
+						uni.switchTab({
+							url:'/pages/cart/cart'
+						})
+					}
 				},
 			buttonClick(e) {
-					console.log(e)
-					this.options[2].info++
+				// 判断是否点击购物车按钮
+					if(e.content.text==='加入购物车'){
+						this.addCart(this.goodsInfo)
+					}
 				}
 			},
-		onLoad(option) {
+			onLoad(option) {
 			this.getGoodsInfo(option.goods_id)
 			}
 	}
