@@ -18,7 +18,7 @@
 					<view class="right-scroll-item-goods">
 						<view v-for="item2 in item.children" :key="item2.cat_id" class="right-scroll-item-goods-item" @click="gotoGoodsList(item2)">
 							<view class="right-scroll-item-goods-img">
-								<image src="https://api-ugo-web.itheima.net/full/2fb113b32f7a2b161f5ee4096c319afedc3fd5a1.jpg"></image>
+								<image :src="item2.cat_icon"></image>
 							</view>
 							<view class="right-scroll-item-goods-name">
 								{{item2.cat_name}}

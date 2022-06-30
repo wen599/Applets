@@ -6,7 +6,7 @@ export default {
 		}
 	},
 	mutations:{
-		// 保存数据
+		// 保存购物车数据
 		saveCart(state){
 			try{
 			uni.setStorageSync('cart',JSON.stringify(state.cart))
